@@ -10,18 +10,6 @@ def create_new_account_or_login_prompt  # => asks user to sign in or create a ne
 end
 
 
-def valid_welcome_input?
-  user_welcome_input = gets.chomp.to_i
-  if user_welcome_input == 1
-    true
-  elsif user_welcome_input == 2
-    true
-  else
-    false
-  end
-end
-
-
 def welcome_option
   user_welcome_input = gets.chomp.to_i
   if user_welcome_input == 1
