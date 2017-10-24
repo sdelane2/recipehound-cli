@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :userrecipes
-  has_many :recipes, through: :userrecipes
+  has_many :user_recipes
+  has_many :recipes, through: :user_recipes
 
   def initialize(first_name, username, password)
     @first_name = first_name

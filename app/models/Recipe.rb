@@ -1,7 +1,7 @@
 class Recipe < ActiveRecord::Base
-  has_many :userrecipes
-  has_many :users, through: :userrecipes
-  has_many :recipeingredients
-  has_many :ingredients, through: :recipeingredients
+  has_many :user_recipes
+  has_many :users, through: :user_recipes
+  # has_many :recipe_ingredients
+  # has_many :ingredients, through: :recipe_ingredients
 
 end

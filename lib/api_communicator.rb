@@ -15,13 +15,13 @@ def get_all_recipes #parses all the data from JSON into array of hashes
   recipe_array = recipe_array.flatten
 end
 
-def ingredients_as_array
-  all_recipes_array = get_all_recipes
-   all_recipes_array.each do |recipe|
-    recipe["ingredients"] = recipe["ingredients"].split(", ")
-  end
-  binding.pry
-end
+# def ingredients_as_array
+#   all_recipes_array = get_all_recipes
+#    all_recipes_array.each do |recipe|
+#     recipe["ingredients"] = recipe["ingredients"].split(", ")
+#   end
+#   binding.pry
+# end
 
 #get_all_recipes
 # ingredients_as_array
