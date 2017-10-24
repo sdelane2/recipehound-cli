@@ -1,43 +1,22 @@
 # #require_relative '../config/environment'
 # #require_relative '../lib/api_communicator'
-#
-def welcome_message
+
+def welcome_message # => greets user at the start of the program
   puts "Welcome to RecipeHound, the CLI app that sniffs out the perfect recipe for you!"
 end
 
 
-def create_new_account_or_login_prompt
+def create_new_account_or_login_prompt  # => asks user to sign in or create a new account
   puts "Would you like to create a new account or sign in to an existing account?"
   puts "Enter '1' to create a new account. Enter '2' to sign in to an existing account."
-
-
-  # until valid_welcome_input? == true
-  #   welcome_try_again
-  # end
-  #   welcome_option
-
-
-  # user_welcome_input = gets.chomp.to_i
-  # if valid_welcome_input?
-  #   welcome_option
-  # else
-  #   welcome_try_again
-  # end
-
-
+    until valid_welcome_input?
+      puts "That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account."
+    end
+  welcome_option
 end
 
-#   # user_welcome_input = gets.chomp.to_i
-#   # if user_welcome_input == 1
-#   #   puts "Great! Let's creat a new account for you!"
-#   # elsif user_welcome_input == 2
-#   #   puts "Awesome! Let's create a new account for you!"
-#   # else
-#   #   puts "That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account."
-#   # end
-# #  end
-# #end
-#
+
+
 def valid_welcome_input?
   user_welcome_input = gets.chomp.to_i
   if user_welcome_input == 1
@@ -49,34 +28,52 @@ def valid_welcome_input?
   end
 end
 
+
 def welcome_option
   if user_welcome_input == 1
-    puts "Great! Let's create a new account for you!"
+    create_new_user_account
   else user_welcome_input == 2
-    puts "Awesome! Let's create a new account for you!"
+    existing_account_login
   end
 end
+
 
 def welcome_try_again
     puts "That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account."
     user_welcome_input = gets.chomp.to_i
 end
 
-def create_new_user_account
-  puts "Great! Let's create a new account for you!"
+
+def create_new_user_account # => takes user inputs and creates a new User instance with those a
+  puts "Awesome! Let's create a new account for you!"
   puts "What's your first name?"
-  user_first_name = gets.chomp
+    user_first_name = gets.chomp
   puts "Hi, #{user_first_name}. What would you like your username to be?"
-  user_username = gets.chomp
+    user_username = gets.chomp
   # => INSERT A FIND BY USERNAME METHOD
   puts "Got it. Choose a password. Make sure you save it in a safe place!"
-  user_password = gets.chomp
+    user_password = gets.chomp
   puts "Great! You're all set up, #{user_first_name}! Your username is #{user_username}."
-  # => username = User.create(user_first_name, user_username, user_password)
+  # => user_username = User.create(user_first_name, user_username, user_password)
 end
 
 
-# welcome_message
-# create_new_account_or_login_prompt
+# def existing_account_login
+#   puts "Please enter your username."
+#     user_username = gets.chomp
+#   # => User.find_by(user_username)
+# end
 
-create_new_user_account
+
+# def ingredients_list  # => displays list of ingredients for user to choose from
+#   puts "========================="
+#
+#
+#   puts "========================="
+# end
+
+
+ welcome_message
+ create_new_account_or_login_prompt
+
+#create_new_user_account
