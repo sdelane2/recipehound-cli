@@ -10,7 +10,7 @@ def create_new_account_or_login_prompt  # => asks user to sign in or create a ne
 end
 
 
-def welcome_option
+def welcome_option  # => validation for user input on create_new_account_or_login_prompt
   user_welcome_input = gets.chomp.to_i
   if user_welcome_input == 1
     create_new_user_account
@@ -33,7 +33,8 @@ def create_new_user_account # => takes user inputs and creates a new User instan
   puts "Got it. Choose a password. Make sure you save it in a safe place!"
     user_password = gets.chomp
   puts "Great! You're all set up, #{user_first_name}! Your username is #{user_username}."
-  # => user_username = User.create(user_first_name, user_username, user_password)
+  user_username = User.create(first_name: user_first_name, username: user_username, password: user_password)
+  # user_username.save
 end
 
 
