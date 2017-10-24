@@ -34,7 +34,6 @@ def create_new_user_account # => takes user inputs and creates a new User instan
     user_password = gets.chomp
   puts "Great! You're all set up, #{user_first_name}! Your username is #{user_username}."
   user_username = User.create(first_name: user_first_name, username: user_username, password: user_password)
-  # user_username.save
 end
 
 
