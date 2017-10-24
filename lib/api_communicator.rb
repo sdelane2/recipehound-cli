@@ -24,7 +24,7 @@ def ingredients_as_array
 end
 
 #get_all_recipes
-ingredients_as_array
+# ingredients_as_array
 
 
 # def ingredients_as_array
