@@ -1,7 +1,7 @@
 require_relative "../config/environment.rb"
 
 Ingredient.delete_all
-# RecipeIngredient.delete_all
+RecipeIngredient.delete_all
 Recipe.delete_all
 # User.delete_all
 # UserRecipe.delete_all
