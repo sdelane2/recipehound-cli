@@ -26,9 +26,9 @@ ActiveRecord::Schema.define(version: 5) do
     t.string "href"
   end
 
-  create_table "user_ingredients", force: :cascade do |t|
+  create_table "user_recipes", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "ingredient_id"
+    t.integer "recipe_id"
   end
 
   create_table "users", force: :cascade do |t|
