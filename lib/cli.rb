@@ -40,26 +40,7 @@ def create_new_user_account # => takes user inputs and creates a new User instan
     puts "Sorry, that username is already taken."
     create_new_user_account
   end
-  # puts "What's your first name?"
-  #   user_first_name = gets.chomp
-  # puts "Hi, #{user_first_name}. What would you like your username to be?"
-  # user_creation
 end
-
-# def user_creation
-#   user_username = gets.chomp
-#   taken_username = User.find_by(username: user_username)
-#   if taken_username == nil
-#     puts "Got it. Choose a password. Make sure you save it in a safe place!"
-#     user_password = gets.chomp
-#     puts "Great! You're all set up, #{user_first_name}! Your username is #{user_username}."
-#     user_username = User.create(first_name: user_first_name, username: user_username, password: user_password)
-#   else
-#     puts "Sorry, that username is already taken. Please choose another."
-#     user_creation
-#   end
-# end
-
 
 def existing_account_login
   puts "Please enter your username."
@@ -73,19 +54,13 @@ def existing_account_login
   end
 end
 
-# => THERE ARE 533 INGREDIENTS IN THE DATABASE. IT MAY BE EASIER FOR A USER TO
-# => NAME AN INGREDIENT AND DO A FIND_BY RATHER THAN LIST ALL THE INGREDIENTS
-# => AND HAVE A USER PICK ONE.
-# => or....
-# => THE SYSTEM COULD SEND A LIST OF 20 OR SO RANDOM INGREDIENTS FOR A USER TO
-# => CHOOSE FROM.
-
 def find_recipe_by_ingredient
   puts "What ingredient would you like to use?"
   user_ingredient = gets.chomp
   ingredient_given = Ingredient.find_by(title: user_ingredient)
   if ingredient_given == nil
     puts "No recipes with that ingredient could be found. Try making it plural?"
+    find_recipe_by_ingredient
   else
     relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id)
     recipe_ids = relationships.collect {|row| row.recipe_id}
@@ -98,8 +73,3 @@ def find_recipe_by_ingredient
     end
   end
 end
-
-
-
-# def ingredients_list  # => displays list of ingredients for user to choose from
-# end
