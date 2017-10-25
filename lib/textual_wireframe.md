@@ -22,7 +22,7 @@ Add menu of possible actions
     -shopping list for specific recipe in cookbook
   -BONUS search for more than one ingredient
 
-  METHODS
+  METHODS (Yassi)
     -display shopping list
       -for specific recipe
       -for all recipes in cookbook
