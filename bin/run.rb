@@ -10,3 +10,6 @@ require 'asciiart'
 #create_new_account_or_login_prompt
 
 #find_recipe_by_ingredient
+
+find_recipe_by_ingredient
+save_recipe

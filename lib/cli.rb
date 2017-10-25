@@ -66,9 +66,29 @@ def find_recipe_by_ingredient
     recipes.each do |recipe|
       puts "#{recipe.title}"
     end
+    save_recipe
   end
 end
 
+def save_recipe
+  puts "Would you like to save a recipe from this list? (y/n)"
+  should_recipe_be_saved = gets.chomp.downcase
+    if should_recipe_be_saved == "n"
+      false
+    elsif should_recipe_be_saved == "y"
+      puts "Okay. Enter the name of the recipe you'd like to save."
+      saved_recipe_input = gets.chomp
+      saved_recipe = Recipe.find_by(title: saved_recipe_input)
+      new_user_recipe = UserRecipe.new(recipe_id: saved_recipe.id, user_id: self.id)
+    else
+      puts "Get it together, #{user.first_name}. That's not a valid input."
+      saved_recipe
+    end
+end
 
-# def ingredients_list  # => displays list of ingredients for user to choose from
-# end
+
+
+def shopping_list
+  puts "Shopping List"
+
+end
