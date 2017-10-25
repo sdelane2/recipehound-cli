@@ -4,7 +4,7 @@ require_relative '../lib/cli'
 
 
 
- #welcome_message
- #create_new_account_or_login_prompt
+ welcome_message
+ create_new_account_or_login_prompt
 
 find_recipe_by_ingredient

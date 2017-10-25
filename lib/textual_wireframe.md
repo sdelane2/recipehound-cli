@@ -11,7 +11,17 @@ A User can save favorite recipes.
 <!-- CLI app greets user. -->
 <!-- User is asked whether they want to make a create a new account or sign in to existing account. -->
   <!-- If user chooses option to create a new account, -->
+  Make sure that the program checks to see if username is already taken
   If user chooses option to sign in to existing account,
+Add menu of possible actions
+  -search for recipe by ingredient
+  -search for recipe by another ingredient
+  -look at user's cookbook
+  -Ask for random recipe "I don't know what to eat"
+  -shopping list (list of all ingredients for entire cookbook)
+    -shopping list for specific recipe in cookbook
+  -BONUS search for more than one ingredient
+
 
 ##    ##
 

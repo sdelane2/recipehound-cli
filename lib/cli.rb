@@ -39,8 +39,14 @@ end
 
 def existing_account_login
   puts "Please enter your username."
-    user_username = gets.chomp
-  # => User.find_by(user_username)
+  user_username = gets.chomp
+  existing_user = User.find_by(user_username)
+  if existing_username == nil
+    puts "No user found with that username. Please try again."
+  else
+    puts "Hello #{existing_username.first_name}. Welcome back!"
+    existing_user
+  end
 end
 
 # => THERE ARE 533 INGREDIENTS IN THE DATABASE. IT MAY BE EASIER FOR A USER TO
