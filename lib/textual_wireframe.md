@@ -22,6 +22,12 @@ Add menu of possible actions
     -shopping list for specific recipe in cookbook
   -BONUS search for more than one ingredient
 
+  METHODS
+    -display shopping list
+      -for specific recipe
+      -for all recipes in cookbook
+    -display user's recipes
+
 
 ##    ##
 
