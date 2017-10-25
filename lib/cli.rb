@@ -53,9 +53,20 @@ end
 def find_recipe_by_ingredient
   puts "What ingredient would you like to use?"
   user_ingredient = gets.chomp
-  ingredient = Ingredient.find_by(title: user_ingredient)
-  puts RecipeIngredient.(ingredient_id: ingredient.id)
-
+  ingredient_given = Ingredient.find_by(title: user_ingredient)
+  if ingredient_given == nil
+    puts "No recipes with that ingredient could be found. Try making it plural?"
+  else
+    relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id)
+    recipe_ids = relationships.collect {|row| row.recipe_id}
+    recipes = recipe_ids.collect do |id|
+      Recipe.find(id)
+    end
+    puts "Here are some available recipes with that ingredient:"
+    recipes.each do |recipe|
+      puts "#{recipe.title}"
+    end
+  end
 end
 
 
