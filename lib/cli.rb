@@ -34,7 +34,6 @@ def create_new_user_account # => takes user inputs and creates a new User instan
     user_password = gets.chomp
   puts "Great! You're all set up, #{user_first_name}! Your username is #{user_username}."
   user_username = User.create(first_name: user_first_name, username: user_username, password: user_password)
-  # user_username.save
 end
 
 
@@ -42,6 +41,21 @@ def existing_account_login
   puts "Please enter your username."
     user_username = gets.chomp
   # => User.find_by(user_username)
+end
+
+# => THERE ARE 533 INGREDIENTS IN THE DATABASE. IT MAY BE EASIER FOR A USER TO
+# => NAME AN INGREDIENT AND DO A FIND_BY RATHER THAN LIST ALL THE INGREDIENTS
+# => AND HAVE A USER PICK ONE.
+# => or....
+# => THE SYSTEM COULD SEND A LIST OF 20 OR SO RANDOM INGREDIENTS FOR A USER TO
+# => CHOOSE FROM.
+
+def find_recipe_by_ingredient
+  puts "What ingredient would you like to use?"
+  user_ingredient = gets.chomp
+  ingredient = Ingredient.find_by(title: user_ingredient)
+  puts RecipeIngredient.(ingredient_id: ingredient.id)
+
 end
 
 
