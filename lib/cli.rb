@@ -43,6 +43,21 @@ def existing_account_login
   # => User.find_by(user_username)
 end
 
+# => THERE ARE 533 INGREDIENTS IN THE DATABASE. IT MAY BE EASIER FOR A USER TO
+# => NAME AN INGREDIENT AND DO A FIND_BY RATHER THAN LIST ALL THE INGREDIENTS
+# => AND HAVE A USER PICK ONE.
+# => or....
+# => THE SYSTEM COULD SEND A LIST OF 20 OR SO RANDOM INGREDIENTS FOR A USER TO
+# => CHOOSE FROM.
+
+def find_recipe_by_ingredient
+  puts "What ingredient would you like to use?"
+  user_ingredient = gets.chomp
+  ingredient = Ingredient.find_by(title: user_ingredient)
+  puts RecipeIngredient.(ingredient_id: ingredient.id)
+
+end
+
 
 # def ingredients_list  # => displays list of ingredients for user to choose from
 # end
