@@ -1,5 +1,5 @@
 def welcome_message # => greets user at the start of the program
-  puts "Welcome to RecipeHound, the CLI app that sniffs out the perfect recipe for you!"
+  puts "Welcome to \e[34m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!"
 end
 
 
@@ -40,6 +40,7 @@ def create_new_user_account # => takes user inputs and creates a new User instan
     puts "Sorry, that username is already taken."
     create_new_user_account
   end
+  user_username
 end
 
 def existing_account_login

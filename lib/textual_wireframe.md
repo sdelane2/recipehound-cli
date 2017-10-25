@@ -11,8 +11,8 @@ A User can save favorite recipes.
 <!-- CLI app greets user. -->
 <!-- User is asked whether they want to make a create a new account or sign in to existing account. -->
   <!-- If user chooses option to create a new account, -->
-  Make sure that the program checks to see if username is already taken
-  If user chooses option to sign in to existing account,
+  <!-- Make sure that the program checks to see if username is already taken
+  If user chooses option to sign in to existing account, -->
 Add menu of possible actions
   -search for recipe by ingredient
   -search for recipe by another ingredient
@@ -32,18 +32,19 @@ User is prompted to select an ingredient from the list.
   write method that grabs all IngredientRecipe relationships with that ingredient_id
   return all recipes with that ingredient id in Ingredient Recipe -->
 <!-- System returns a list of all the recipes that contain that ingredient. -->
-User selects a recipe.
-Recipe is saved to user's cookbook.
+<!-- User selects a recipe.
+Recipe is saved to user's cookbook. -->
 
 ##    ##
 
 * Migrations
   - seed recipes db
   - set up classes for
-    Users
-    recipes
-    ingredients
-    cookbook
+    User
+    Recipe
+    Ingredient
+    UserRecipe
+    IngredientRecipe
 
 
 
