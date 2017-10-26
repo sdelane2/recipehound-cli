@@ -1,8 +1,14 @@
 require 'pry'
 require 'tty-prompt'
+require 'asciiart'
 
 
 ## ===== WELCOME METHODS ===== ##
+
+def welcome_image
+  ascii = AsciiArt.new("http://c1.staticflickr.com/5/4468/37882203826_01aeb6ea0c_b.jpg")
+  print ascii.to_ascii_art
+end
 
 def welcome_message # => greets user at the start of the program
   puts "\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
