@@ -1,8 +1,9 @@
 require 'pry'
+require 'tty-prompt'
 
 
 def welcome_message # => greets user at the start of the program
-  puts "Welcome to \e[34m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!"
+  puts "\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
 end
 
 
@@ -21,7 +22,7 @@ def welcome_option  # => validation for user input on create_new_account_or_logi
   elsif user_welcome_input == 2
     user = existing_account_login
   else
-    puts "\n\e[95mRuh roh! That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account.\e[0m"
+    puts "\n\e[91mRuh roh! That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account.\e[0m"
     welcome_option
   end
   user
@@ -29,18 +30,18 @@ end
 
 
 def create_new_user_account # => takes user inputs and creates a new User instance
-  puts "\nWhat would you like your username to be?"
+  puts "\n\e[95mWhat would you like your username to be?\e[0m"
   user_username_input = gets.chomp
   user = User.find_by(username: user_username_input)
   if user == nil
-    puts "\nI like that. What's your first name?"
+    puts "\n\e[95mI like that. What's your first name?\e[0m"
     user_first_name = gets.chomp
-    puts "\nGot it. Choose a password. Make sure you save it in a safe place!"
+    puts "\n\e[95mGot it. Choose a password. Make sure you save it in a safe place!\e[0m"
     user_password = gets.chomp
-    puts "\nYou're all set up, #{user_first_name}! Your username is #{user_username_input}."
+    puts "\n\e[95mYou're all set up, #{user_first_name}! Your username is #{user_username_input}.\e[0m"
     user = User.create(first_name: user_first_name, username: user_username_input, password: user_password)
   else
-    puts "\nSorry, that username is already taken."
+    puts "\n\e[91mSorry, that username is already taken.\e[0m"
     create_new_user_account
   end
   user
@@ -48,24 +49,24 @@ end
 
 
 def existing_account_login
-  puts "\nPlease enter your username."
+  puts "\n\e[95mPlease enter your username.\e[0m"
   user_username = gets.chomp
   user = User.find_by(username: user_username)
   if user == nil
-    puts "\nRuh roh! No user found with that username. Please try again."
+    puts "\n\e[91mRuh roh! No user found with that username. Please try again.\e[0m"
   else
-    puts "\nHello #{user.first_name}. Welcome back!"
+    puts "\n\e[95mHello #{user.first_name}. Welcome back!\e[0m"
   end
 user
 end
 
 
 def find_recipe_by_ingredient(user)
-  puts "\nWhat ingredient would you like to use?"
+  puts "\n\e[95mWhat ingredient would you like to use?\e[0m"
   user_ingredient = gets.chomp
   ingredient_given = Ingredient.find_by(title: user_ingredient)
   if ingredient_given == nil
-    puts "\nRuh roh! No recipes with that ingredient could be found. Try making it plural?"
+    puts "\n\e[91mRuh roh! No recipes with that ingredient could be found. Try making it plural?\e[0m"
     find_recipe_by_ingredient(user)
   else
     relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id)
@@ -73,7 +74,7 @@ def find_recipe_by_ingredient(user)
     recipes = recipe_ids.collect do |id|
       Recipe.find(id)
     end
-    puts "\nHere are some available recipes with that ingredient:"
+    puts "\n\e[95mHere are some available recipes with that ingredient:\e[0m"
     recipes.each do |recipe|
       puts "#{recipe.title}"
     end
@@ -82,19 +83,19 @@ end
 
 
 def save_recipe(user)
-  puts "\nWould you like to save a recipe from this list? (y/n) \e[95mLight magenta"
+  puts "\n\e[95mWould you like to save a recipe from this list? (y/n)\e[0m"
   should_recipe_be_saved = gets.chomp
     if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
-      puts "\nGet it together, #{user.first_name}. That's not a valid input."
+      puts "\n\e[91mGet it together, #{user.first_name}. That's not a valid input.\e[0m"
       save_recipe(user)
     elsif should_recipe_be_saved == "n"
       false
     else should_recipe_be_saved == "y"
-      puts "\nOkay. Enter the name of the recipe you'd like to save."
+      puts "\n\e[95mOkay. Enter the name of the recipe you'd like to save.\e[0m"
       saved_recipe_input = gets.chomp
       saved_recipe = Recipe.find_by(title: saved_recipe_input)
       new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
-      puts "\nGreat! #{saved_recipe_input} has been saved to your list."
+      puts "\n\e[95mGreat! #{saved_recipe_input} has been saved to your list.\e[0m"
     end
 end
 
@@ -122,17 +123,55 @@ elsif user_input == "I don't know what to eat" || user_input == "I don't know wh
 elsif user_input == "make shopping_list"
   #write method here
 else
-  puts "\e[31mRuh roh! That's not a menu item! Please choose a menu item.\e[0m"
+  puts "\e[91mRuh roh! That's not a menu item! Please choose a menu item.\e[0m"
   menu
 end
 
 end
 
-menu
+#menu
 
+# => below is an attempt to create the menu with a menu gem
+def prompt_menu
+  menu = TTY::Prompt.new
+  menu_options = ["\e[95mSearch for a recipe by ingredient\e[0m", "\e[95mFetch my recipes\e[0m", "\e[95mI don't know what to eat\e[0m", "\e[95mMake a shopping list\e[0m"]
+  user_selection = menu.enum_select("\e[95mWhat would you like me to do?\e[0m", menu_options)
+    if user_selection == "Search for a recipe by ingredient"
+      find_recipe_by_ingredient(user)
+    elsif user_selection == "Fetch my recipes"
+
+    elsif user_selection == "I don't know what to eat"
+
+    else user_selection == "Make a shopping list"
+      shopping_list(user)
+    end
+end
+
+
+def random_recipe(user)
+  puts "\e[95mWhy not try this recipe?\e[0m"
+  rand_recipe = Recipe.all.name.sample
+  puts rand_recipe
+  save_random_recipe(user)
+end
+
+def save_random_recipe(user)  # => helper method for random_recipe(user)
+  puts "\n\e[95mWould you like to save it for later? (y/n)\e[0m"
+  should_recipe_be_saved = gets.chomp
+    if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
+      puts "\n\e[91mGet it together, #{user.first_name}. That's not a valid input.\e[0m"
+      save_random_recipe(user)
+    elsif should_recipe_be_saved == "n"
+      false
+    else should_recipe_be_saved == "y"
+      saved_recipe = Recipe.find_by(title: rand_recipe)
+      new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
+      puts "\n\e[95mGreat! #{rand_recipe} has been saved to your list.\e[0m"
+    end
+end
 
 
 def shopping_list(user)
-  puts "Shopping List"
+  puts "\e[95mShopping List\e[0m"
 
 end
