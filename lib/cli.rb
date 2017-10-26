@@ -47,7 +47,7 @@ def create_new_user_account # => takes user inputs and creates a new User instan
 end
 
 
-def existing_account_login
+def existing_account_login  # => finds
   puts "\n\e[95mPlease enter your username.\e[0m"
   user_username = gets.chomp
   user = User.find_by(username: user_username)
@@ -66,7 +66,7 @@ end
 
 def prompt_menu(user)
   menu = TTY::Prompt.new
-  menu_options = ["\e[95mSearch for a recipe by ingredient\e[0m", "\e[95mFetch my recipes\e[0m", "\e[95mI don't know what to eat\e[0m", "\e[95mMake a shopping list\e[0m"]
+  menu_options = ["\e[95mSearch for a recipe by ingredient\e[0m", "\e[95mFetch my recipes\e[0m", "\e[95mI don't know what to eat\e[0m", "\e[95mMake a shopping list one saved recipes\e[0m", "\e[95mMake a shopping list for all saved recipes\e[0m"]
   user_selection = menu.select("\n\e[95mWhat would you like to do?\e[0m", menu_options)
   user_selection
   if user_selection == "\e[95mSearch for a recipe by ingredient\e[0m"
@@ -75,8 +75,10 @@ def prompt_menu(user)
     fetch_user_recipes(user)
   elsif user_selection == "\e[95mI don't know what to eat\e[0m"
     random_recipe(user)
-  else user_selection == "\e[95mMake a shopping list\e[0m"
-    shopping_list(user)
+  elsif user_selection == "\e[95mMake a shopping list one saved recipes\e[0m"
+    shopping_list_one_recipe(user)
+  else user_selection == "\e[95mMake a shopping list for all saved recipes\e[0m"
+    shopping_list_all_recipes(user)
   end
 end
 
@@ -99,18 +101,16 @@ def find_recipe_by_ingredient(user)
       puts "#{recipe.title}"
     end
   end
+  save_recipe(user)
 end
 
 
 def save_recipe(user)
-  puts "\n\e[95mWould you like to save a recipe from this list? (y/n)\e[0m"
-  should_recipe_be_saved = gets.chomp
-    if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
-      puts "\n\e[91mGet it together, #{user.first_name}. That's not a valid input.\e[0m"
-      save_recipe(user)
-    elsif should_recipe_be_saved == "n"
-      false
-    else should_recipe_be_saved == "y"
+  save_recipe_prompt = TTY::Prompt.new
+  should_i_save_recipe = save_recipe_prompt.select("\e[95mWould you like to save a recipe from this list?\e[0m", %w(Yes No))
+    if should_i_save_recipe == "No"
+      puts "Okay, it won't be saved."
+    else should_i_save_recipe == "Yes"
       puts "\n\e[95mOkay. Enter the name of the recipe you'd like to save.\e[0m"
       saved_recipe_input = gets.chomp
       saved_recipe = Recipe.find_by(title: saved_recipe_input)
