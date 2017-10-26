@@ -95,7 +95,7 @@ def find_recipe_by_ingredient(user)
     recipe_ids = relationships.collect {|row| row.recipe_id} # => collects all recipe_ids
     recipes = recipe_ids.collect {|id| Recipe.find(id) } # => collects all recipe objects
     puts "\n\e[95mHere are some available recipes with that ingredient:\e[0m"
-    recipes_result = recipes.each {|recipe| puts "#{recipe.title}" } # => displays title of each recipe
+    recipes_results = recipes.each {|recipe| puts "#{recipe.title}" } # => displays title of each recipe
   end
   save_recipe(user)
 end
@@ -107,6 +107,13 @@ def save_recipe(user)
     if should_i_save_recipe == "No"
       puts "Okay, it won't be saved."
     else should_i_save_recipe == "Yes"
+
+      save_recipe_from_list = TTY::Prompt.new
+      user_selection = recipe_list.select("\n\e[95mWhich recipe would you like to save?\e[0m", recipe_results)
+      ingredients_list = Recipe.find_by(title: user_selection).ingredients.each {|ingredient| puts ingredient.title}
+
+
+
       puts "\n\e[95mOkay. Enter the name of the recipe you'd like to save.\e[0m"
       saved_recipe_input = gets.chomp
       saved_recipe = Recipe.find_by(title: saved_recipe_input)
@@ -119,6 +126,8 @@ def fetch_user_recipes(user)
   if user.recipes == []
     puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first."
   else
+    puts "\n\e[96mMy Recipes\e[0m"
+    puts "-------------------------"
     user.recipes.each {|recipe| puts recipe.title}
   end
 end
@@ -170,13 +179,13 @@ def shopping_list_one_recipe(user)
     prompt_menu(user)
   else
     recipe_ids = relationships.collect {|row| row.recipe_id } # => returns array of all recipe ids
-    all_recipes = recipe_ids.collect {|id| Recipe.find(id) } # => returns array of all recipe objects
+    all_recipes = recipe_ids.collect {|x| Recipe.find(x) } # => returns array of all recipe objects
     recipe_titles = all_recipes.collect { |recipe| recipe.title} # => print out all saved recipe titles
     recipe_list = TTY::Prompt.new
     recipe_titles
+    user_selection = recipe_list.select("\n\e[95mWhich saved recipe would you like to use?\e[0m", recipe_titles)
     puts "\n\e[96mShopping List\e[0m"
     puts "-------------------------"
-    user_selection = recipe_list.select("\n\e[95mWhich saved recipe would you like to use?\e[0m", recipe_titles)
     ingredients_list = Recipe.find_by(title: user_selection).ingredients.each {|ingredient| puts ingredient.title}
   end
   ingredients_list
