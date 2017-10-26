@@ -121,7 +121,6 @@ end
 
 def fetch_user_recipes(user)
   if user.recipes == []
-  binding.pry
     puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first."
   else
     user.recipes.each {|recipe| puts recipe.title}
@@ -145,7 +144,7 @@ def random_recipe(user)
 end
 
 
-def shopping_list(user) #returns all ingredients for entire cookbook
+def shopping_list_all_recipes(user) #returns all ingredients for entire cookbook
   puts "\e[95mShopping List\e[0m"
   relationships = UserRecipe.where(user_id: user.id) #returns array of all relationships
   if relationships == []
@@ -163,6 +162,26 @@ def shopping_list(user) #returns all ingredients for entire cookbook
     end.flatten.uniq
     shopping_list = all_ingredients.each do |ingredient|
       puts "#{ingredient.title}"
+    end
+  end
+end
+
+def shopping_list_one_recipe(user)
+  relationships = UserRecipe.where(user_id: user.id) #returns array of all relationships
+  if relationships == []
+    puts "Your shopping list is empty. Save recipes before building a shopping list."
+    prompt_menu(user)
+    ###
+  else
+    puts "Which saved recipe?"
+    recipe_ids = relationships.collect do |row| #returns array of all recipe ids
+      row.recipe_id
+    end
+    all_recipes = recipe_ids.collect do |x| #returns array of all recipe objects
+      Recipe.find(x)
+    end
+    recipe_titles = all_recipes.each do |recipe| #print out all saved recipe titles
+      puts recipe.title
     end
   end
 end
