@@ -5,7 +5,7 @@ require 'asciiart'
 require 'tty-prompt'
 
 
-puts "
+puts "\e[96m
 8888888b.                    d8b                   888    888                                 888
 888   Y88b                   Y8P                   888    888                                 888
 888    888                                         888    888                                 888
@@ -19,7 +19,7 @@ puts "
                                  888
 
 
-"
+\e[0m"
 
 
 
