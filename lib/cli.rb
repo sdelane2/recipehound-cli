@@ -118,18 +118,18 @@ end
 def find_recipe_by_ingredient(user)
   puts "\n\e[95mWhat ingredient would you like to use?\e[0m"
   user_ingredient = gets.chomp
-  ingredient_given = Ingredient.find_by(title: user_ingredient)
-  if ingredient_given == nil
+  ingredient_given = Ingredient.find_by(title: user_ingredient) #find the ingredient inputed
+  if ingredient_given == nil #if ingredient not found in db
     puts "\n\e[91mRuh roh! No recipes with that ingredient could be found. Try making it plural?\e[0m"
     find_recipe_by_ingredient(user)
-  else
-    relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id)
-    recipe_ids = relationships.collect {|row| row.recipe_id}
-    recipes = recipe_ids.collect do |id|
+  else #if ingredient found in db
+    relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id) #finds all relationships that contain that ingredient
+    recipe_ids = relationships.collect {|row| row.recipe_id} #collects all recipe_ids
+    recipes = recipe_ids.collect do |id| #collects all recipe objects
       Recipe.find(id)
     end
     puts "\n\e[95mHere are some available recipes with that ingredient:\e[0m"
-    recipes.each do |recipe|
+    recipes.each do |recipe| #displays title of each recipe
       puts "#{recipe.title}"
     end
   end
@@ -178,7 +178,24 @@ def random_recipe(user)
 end
 
 
-def shopping_list(user)
+def shopping_list(user) #returns all ingredients for entire cookbook
   puts "\e[95mShopping List\e[0m"
-
+  relationships = UserRecipe.where(user_id: user.id) #returns array of all relationships
+  if relationships == []
+    puts "Your shopping list is empty. Save recipes before building a shopping list."
+    prompt_menu(user)
+  else
+    recipe_ids = relationships.collect do |row| #returns array of all recipe ids
+      row.recipe_id
+    end
+    all_recipes = recipe_ids.collect do |x| #returns array of all recipe objects
+      Recipe.find(x)
+    end
+    all_ingredients = all_recipes.collect do |recipe| #returns array of all ingredient objects
+      recipe.ingredients
+    end.flatten.uniq
+    shopping_list = all_ingredients.each do |ingredient|
+      puts "#{ingredient.title}"
+    end
+  end
 end

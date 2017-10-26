@@ -1,7 +1,7 @@
 require_relative '../config/environment'
 require_relative '../lib/api_communicator'
 require_relative '../lib/cli'
-require 'asciiart'
+# require 'asciiart'
 require 'tty-prompt'
 # require 'figlet'
 #
