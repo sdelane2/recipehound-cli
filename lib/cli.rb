@@ -128,6 +128,7 @@ def fetch_user_recipes(user)
   end
 end
 
+
 def random_recipe(user)
   puts "\n\e[95mWhy not try this recipe, #{user.first_name}?\e[0m"
   rand_recipe = Recipe.all.sample.title
