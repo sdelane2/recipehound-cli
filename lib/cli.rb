@@ -98,6 +98,38 @@ def save_recipe(user)
     end
 end
 
+def menu
+  # -search for recipe by ingredient
+  # -search for recipe by another ingredient
+  # -look at user's cookbook
+  # -Ask for random recipe "I don't know what to eat"
+  # -shopping list (list of all ingredients for entire cookbook)
+  #   -shopping list for specific recipe in cookbook
+  # -BONUS search for more than one ingredient
+puts "\e[34m\e[1m\e[4mMain Menu\e[0m"
+puts "\e[32mWhat would you like me to fetch?\e[0m"
+puts "search for recipe by ingredient"
+puts "view cookbook"
+puts "I don't know what to eat..." #ask for random recipe
+puts "make shopping list"
+user_input = gets.chomp
+if user_input == "search for recipe by ingredient"
+  #write method here
+elsif user_input == "view cookbook"
+  #write method here
+elsif user_input == "I don't know what to eat" || user_input == "I don't know what to eat..."
+  #write method here
+elsif user_input == "make shopping_list"
+  #write method here
+else
+  puts "\e[31mRuh roh! That's not a menu item! Please choose a menu item.\e[0m"
+  menu
+end
+
+end
+
+menu
+
 
 
 def shopping_list(user)

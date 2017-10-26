@@ -1,8 +1,8 @@
-A User can create an account.
-A User can search for recipes by ingredient.
+<!-- A User can create an account. -->
+<!-- A User can search for recipes by ingredient. -->
 A User can search for a recipe by name.
 A User can create a shopping list of needed ingredients based on a given recipe.
-A User can save favorite recipes.
+<!-- A User can save favorite recipes. -->
 
 
 
