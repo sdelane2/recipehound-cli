@@ -11,12 +11,12 @@ def welcome_image
 end
 
 def welcome_message # => greets user at the start of the program
-  puts "\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
+  puts "\n\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m\e[95m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
 end
 
 
 def create_new_account_or_login_prompt  # => asks user to sign in or create a new account
-  puts "\e[95mWould you like to create a new account or sign in to an existing account?]"
+  puts "\n\e[95mWould you like to create a new account or sign in to an existing account?"
   puts "Enter '1' to create a new account. Enter '2' to sign in to an existing account.\e[0m"
   welcome_option
 end

@@ -8,12 +8,7 @@ require 'tty-prompt'
 
 welcome_image
 welcome_message
-
 user = create_new_account_or_login_prompt
-prompt_menu(user)
-#
-#  # => insert menu options
-#  #find_recipe_by_ingredient(user)
-#
-#  #save_recipe(user)
-#  prompt_menu
+100.times do
+  prompt_menu(user)
+end
