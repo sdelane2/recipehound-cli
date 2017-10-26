@@ -19,8 +19,7 @@ require 'tty-prompt'
 #
   welcome_message
 #
-  user = create_new_account_or_login_prompt
-#fetch_user_recipes(user)
+user = create_new_account_or_login_prompt
 prompt_menu(user)
 #
 #  # => insert menu options

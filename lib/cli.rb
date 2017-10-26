@@ -163,36 +163,19 @@ def fetch_user_recipes(user)
 end
 
 def random_recipe(user)
-  puts "\n\e[95mWhy not try this recipe?\e[0m"
+  puts "\n\e[95mWhy not try this recipe, #{user.first_name}?\e[0m"
   rand_recipe = Recipe.all.sample.title
   puts rand_recipe
-  save_random_recipe(user)
   save_prompt = TTY::Prompt.new
-  save_prompt.yes?("\e[95mWould you like to save it for later?\e[0m")
-    if save_prompt == "n"
+  should_i_save = save_prompt.select("\e[95mWould you like to save it for later?\e[0m", %w(Yes No))
+    if should_i_save == "No"
       puts "Okay, it won't be saved."
-    else save_prompt == "y"
+    else should_i_save == "Yes"
       saved_recipe = Recipe.find_by(title: rand_recipe)
       new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
       puts "\n\e[95mGreat! #{rand_recipe} has been saved to your list.\e[0m"
     end
 end
-
-# def save_random_recipe(user)  # => helper method for random_recipe(user)
-#   puts "\n\e[95mWould you like to save it for later? (y/n)\e[0m"
-#   should_recipe_be_saved = gets.chomp
-#     if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
-#       puts "\n\e[91mC'mon, #{user.first_name}. That's not a valid input.\e[0m"
-#       save_random_recipe(user)
-#     elsif should_recipe_be_saved == "n"
-#       false
-#       puts "Okay, it won't be saved."
-#     else should_recipe_be_saved == "y"
-#       saved_recipe = Recipe.find_by(title: rand_recipe)
-#       new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
-#       puts "\n\e[95mGreat! #{rand_recipe} has been saved to your list.\e[0m"
-#     end
-# end
 
 
 def shopping_list(user)
