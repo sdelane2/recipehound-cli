@@ -2,11 +2,22 @@ require_relative '../config/environment'
 require_relative '../lib/api_communicator'
 require_relative '../lib/cli'
 require 'asciiart'
+#require 'figlet'
 
-#ascii = AsciiArt.new("https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$")
-#print ascii.to_ascii_art
+# font = Figlet::Font.new('roman.flf')
+# figlet = Figlet::Typesetter.new(font)
+# puts figlet['RecipeHound']
+
+# => USE THIS ONE
+# ascii = AsciiArt.new("http://c1.staticflickr.com/5/4468/37882203826_01aeb6ea0c_b.jpg")
+# print ascii.to_ascii_art
+
 
  welcome_message
- thisUser = create_new_account_or_login_prompt
- find_recipe_by_ingredient(thisUser)
- save_recipe(thisUser)
+
+ user = create_new_account_or_login_prompt
+
+ # => insert menu options
+ find_recipe_by_ingredient(user)
+
+ save_recipe(user)
