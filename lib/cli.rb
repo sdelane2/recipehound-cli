@@ -33,10 +33,10 @@ def create_new_user_account # => takes user inputs and creates a new User instan
   user_username_input = gets.chomp
   user = User.find_by(username: user_username_input)
   if user == nil
-    puts "\n\e[95mI like that. What's your first name?\e[0m"
+    puts "\e[95mI like that. What's your first name?\e[0m"
     user_first_name = gets.chomp
-    puts "\n\e[95mGot it. Choose a password. Make sure you save it in a safe place!\e[0m"
-    user_password = gets.chomp
+    password = TTY::Prompt.new
+    user_password = password.mask("\e[95mGot it. Choose a password. Make sure you save it in a safe place!\e[0m")
     puts "\n\e[95mYou're all set up, #{user_first_name}! Your username is #{user_username_input}.\e[0m"
     user = User.create(first_name: user_first_name, username: user_username_input, password: user_password)
   else
@@ -50,8 +50,8 @@ end
 def existing_account_login  # => finds existing user
   puts "\n\e[95mPlease enter your username.\e[0m"
   user_username = gets.chomp
-  puts "\n\e[95mPlease enter your password.\e[0m"
-  user_password = gets.chomp
+  password = TTY::Prompt.new
+  user_password = password.mask("\e[95mPlease enter your password.\e[0m")
   user = User.find_by(username: user_username, password: user_password)
   if user == nil
     puts "\n\e[91mRuh roh! No user found with that username and password. Please try again.\e[0m"

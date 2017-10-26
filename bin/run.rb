@@ -23,9 +23,9 @@ puts "
 
 
 
-welcome_image
-welcome_message
- user = create_new_account_or_login_prompt
- 100.times do
-   prompt_menu(user)
- end
+    welcome_image
+    welcome_message
+    user = create_new_account_or_login_prompt
+    100.times do
+      prompt_menu(user)
+    end
