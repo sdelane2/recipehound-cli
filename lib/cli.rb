@@ -97,32 +97,24 @@ def find_recipe_by_ingredient(user)
     recipe_ids = relationships.collect {|row| row.recipe_id} # => collects all recipe_ids
     recipes = recipe_ids.collect {|id| Recipe.find(id) } # => collects all recipe objects
     puts "\n\e[95mHere are some available recipes with that ingredient:\e[0m"
+    puts "\n\e[96mRecipes that use #{user_ingredient}:\e[0m"
+    puts "-------------------------"
     recipes_results = recipes.each {|recipe| puts "#{recipe.title}" } # => displays title of each recipe
+    recipes_results_by_title = recipes.collect {|recipe| recipe.title }
+    save_recipe_prompt = TTY::Prompt.new
+    should_i_save_recipe = save_recipe_prompt.select("\n\e[95mWould you like to save a recipe from this list?\e[0m", %w(Yes No))
+      if should_i_save_recipe == "No"
+        puts "\e[95mOkay, it won't be saved.\e[0m"
+      else should_i_save_recipe == "Yes"
+        save_recipe_from_list = TTY::Prompt.new
+        user_selection = save_recipe_from_list.select("\e[95mWhich recipe would you like to save?\e[0m", recipes_results_by_title)
+        saved_recipe = Recipe.find_by(title: user_selection)
+        new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
+        puts "\n\e[95mGreat! #{user_selection} has been saved to your list.\e[0m"
+      end
   end
-  save_recipe(user)
 end
 
-
-def save_recipe(user)
-  save_recipe_prompt = TTY::Prompt.new
-  should_i_save_recipe = save_recipe_prompt.select("\e[95mWould you like to save a recipe from this list?\e[0m", %w(Yes No))
-    if should_i_save_recipe == "No"
-      puts "Okay, it won't be saved."
-    else should_i_save_recipe == "Yes"
-
-      save_recipe_from_list = TTY::Prompt.new
-      user_selection = recipe_list.select("\n\e[95mWhich recipe would you like to save?\e[0m", recipe_results)
-      ingredients_list = Recipe.find_by(title: user_selection).ingredients.each {|ingredient| puts ingredient.title}
-
-
-
-      puts "\n\e[95mOkay. Enter the name of the recipe you'd like to save.\e[0m"
-      saved_recipe_input = gets.chomp
-      saved_recipe = Recipe.find_by(title: saved_recipe_input)
-      new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
-      puts "\n\e[95mGreat! #{saved_recipe_input} has been saved to your list.\e[0m"
-    end
-end
 
 def fetch_user_recipes(user)
   if user.recipes == []
