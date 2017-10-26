@@ -13,20 +13,20 @@ A User can create a shopping list of needed ingredients based on a given recipe.
   <!-- If user chooses option to create a new account, -->
   <!-- Make sure that the program checks to see if username is already taken
   If user chooses option to sign in to existing account, -->
-Add menu of possible actions
-  -search for recipe by ingredient
+<!-- Add menu of possible actions -->
+  <!-- -search for recipe by ingredient
   -search for recipe by another ingredient
   -look at user's cookbook
-  -Ask for random recipe "I don't know what to eat"
-  -shopping list (list of all ingredients for entire cookbook)
+  -Ask for random recipe "I don't know what to eat" -->
+  <!-- -shopping list (list of all ingredients for entire cookbook) -->
     -shopping list for specific recipe in cookbook
   -BONUS search for more than one ingredient
 
   METHODS (Yassi)
-    -display shopping list
+    <!-- -display shopping list -->
       -for specific recipe
-      -for all recipes in cookbook
-    -display user's recipes
+      <!-- -for all recipes in cookbook -->
+    <!-- -display user's recipes -->
 
 
 ##    ##
