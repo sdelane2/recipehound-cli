@@ -9,7 +9,6 @@ require 'tty-prompt'
 welcome_image
 welcome_message
 user = create_new_account_or_login_prompt
-shopping_list_one_recipe(user)
-# 100.times do
-#   prompt_menu(user)
-# end
+100.times do
+  prompt_menu(user)
+end

@@ -1,7 +1,6 @@
 <!-- A User can create an account. -->
 <!-- A User can search for recipes by ingredient. -->
-A User can search for a recipe by name.
-A User can create a shopping list of needed ingredients based on a given recipe.
+<!-- A User can create a shopping list of needed ingredients based on a given recipe. -->
 <!-- A User can save favorite recipes. -->
 
 
@@ -19,20 +18,18 @@ A User can create a shopping list of needed ingredients based on a given recipe.
   -look at user's cookbook
   -Ask for random recipe "I don't know what to eat" -->
   <!-- -shopping list (list of all ingredients for entire cookbook) -->
-    -shopping list for specific recipe in cookbook
-  -BONUS search for more than one ingredient
+    <!-- -shopping list for specific recipe in cookbook -->
 
   METHODS (Yassi)
     <!-- -display shopping list -->
-      -for specific recipe
+      <!-- -for specific recipe -->
       <!-- -for all recipes in cookbook -->
     <!-- -display user's recipes -->
 
 
 ##    ##
 
-User is given a list of ingredients.
-User is prompted to select an ingredient from the list.
+
   <!-- OR User is asked to input ingredient.
   write method to find ingredient in db and get it's id
   write method that grabs all IngredientRecipe relationships with that ingredient_id

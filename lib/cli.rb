@@ -65,9 +65,11 @@ end
 def existing_account_login
   puts "\n\e[95mPlease enter your username.\e[0m"
   user_username = gets.chomp
-  user = User.find_by(username: user_username)
+  puts "\n\e[95mPlease enter your password.\e[0m"
+  user_password = gets.chomp
+  user = User.find_by(username: user_username, password: user_password)
   if user == nil
-    puts "\n\e[91mRuh roh! No user found with that username. Please try again.\e[0m"
+    puts "\n\e[91mRuh roh! No user found with that username and password. Please try again.\e[0m"
     existing_account_login
   else
     puts "\e[95mHello #{user.first_name}. Welcome back!\e[0m"
