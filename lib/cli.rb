@@ -5,7 +5,7 @@ require 'asciiart'
 
 ## ===== WELCOME METHODS ===== ##
 
-def welcome_image
+def welcome_image # => displays welcome ascii image
   ascii = AsciiArt.new("https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$")
   print ascii.to_ascii_art
 end
@@ -26,21 +26,6 @@ def create_new_account_or_login_prompt  # => asks user to sign in or create a ne
     user = existing_account_login
   end
 end
-
-#
-# def welcome_option  # => validation for user input on create_new_account_or_login_prompt. Will output user object
-#   user_welcome_input = gets.chomp.to_i
-#   if user_welcome_input == 1
-#     puts "\e[95mAwesome! Let's create a new account for you!\e[0m"
-#     user = create_new_user_account
-#   elsif user_welcome_input == 2
-#     user = existing_account_login
-#   else
-#     puts "\n\e[91mRuh roh! That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account.\e[0m"
-#     welcome_option
-#   end
-#   user
-# end
 
 
 def create_new_user_account # => takes user inputs and creates a new User instance
