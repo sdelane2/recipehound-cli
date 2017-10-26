@@ -2,6 +2,8 @@ require 'pry'
 require 'tty-prompt'
 
 
+## ===== WELCOME METHODS ===== ##
+
 def welcome_message # => greets user at the start of the program
   puts "\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
 end
@@ -56,9 +58,60 @@ def existing_account_login
     puts "\n\e[91mRuh roh! No user found with that username. Please try again.\e[0m"
     existing_account_login
   else
-    puts "\n\e[95mHello #{user.first_name}. Welcome back!\e[0m"
+    puts "\e[95mHello #{user.first_name}. Welcome back!\e[0m"
   end
 user
+end
+
+
+## ===== MENU ===== ##
+
+
+def menu
+  # -search for recipe by ingredient
+  # -search for recipe by another ingredient
+  # -look at user's cookbook
+  # -Ask for random recipe "I don't know what to eat"
+  # -shopping list (list of all ingredients for entire cookbook)
+  #   -shopping list for specific recipe in cookbook
+  # -BONUS search for more than one ingredient
+puts "\e[34m\e[1m\e[4mMain Menu\e[0m"
+puts "\e[32mWhat would you like me to fetch?\e[0m"
+puts "search for recipe by ingredient"
+puts "view cookbook"
+puts "I don't know what to eat..." #ask for random recipe
+puts "make shopping list"
+user_input = gets.chomp
+  if user_input == "search for recipe by ingredient"
+    #write method here
+  elsif user_input == "view cookbook"
+    #write method here
+  elsif user_input == "I don't know what to eat" || user_input == "I don't know what to eat..."
+    #write method here
+  elsif user_input == "make shopping_list"
+    #write method here
+  else
+    puts "\e[91mRuh roh! That's not a menu item! Please choose a menu item.\e[0m"
+    menu
+  end
+end
+
+
+# => below is an attempt to create the menu with a menu gem
+def prompt_menu(user)
+  menu = TTY::Prompt.new
+  menu_options = ["\e[95mSearch for a recipe by ingredient\e[0m", "\e[95mFetch my recipes\e[0m", "\e[95mI don't know what to eat\e[0m", "\e[95mMake a shopping list\e[0m"]
+  user_selection = menu.select("\n\e[95mWhat would you like to do?\e[0m", menu_options)
+  user_selection
+  if user_selection == "\e[95mSearch for a recipe by ingredient\e[0m"
+    find_recipe_by_ingredient(user)
+  elsif user_selection == "\e[95mFetch my recipes\e[0m"
+    fetch_user_recipes(user)
+  elsif user_selection == "\e[95mI don't know what to eat\e[0m"
+    random_recipe(user)
+  else user_selection == "\e[95mMake a shopping list\e[0m"
+    shopping_list(user)
+  end
 end
 
 
@@ -100,76 +153,46 @@ def save_recipe(user)
     end
 end
 
-def menu
-  # -search for recipe by ingredient
-  # -search for recipe by another ingredient
-  # -look at user's cookbook
-  # -Ask for random recipe "I don't know what to eat"
-  # -shopping list (list of all ingredients for entire cookbook)
-  #   -shopping list for specific recipe in cookbook
-  # -BONUS search for more than one ingredient
-puts "\e[34m\e[1m\e[4mMain Menu\e[0m"
-puts "\e[32mWhat would you like me to fetch?\e[0m"
-puts "search for recipe by ingredient"
-puts "view cookbook"
-puts "I don't know what to eat..." #ask for random recipe
-puts "make shopping list"
-user_input = gets.chomp
-if user_input == "search for recipe by ingredient"
-  #write method here
-elsif user_input == "view cookbook"
-  #write method here
-elsif user_input == "I don't know what to eat" || user_input == "I don't know what to eat..."
-  #write method here
-elsif user_input == "make shopping_list"
-  #write method here
-else
-  puts "\e[91mRuh roh! That's not a menu item! Please choose a menu item.\e[0m"
-  menu
+def fetch_user_recipes(user)
+  if user.recipes == []
+  binding.pry
+    puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first."
+  else
+    user.recipes.each {|recipe| puts recipe.title}
+  end
 end
-
-end
-
-#menu
-
-# => below is an attempt to create the menu with a menu gem
-def prompt_menu(user)
-  menu = TTY::Prompt.new
-  menu_options = ["\e[95mSearch for a recipe by ingredient\e[0m", "\e[95mFetch my recipes\e[0m", "\e[95mI don't know what to eat\e[0m", "\e[95mMake a shopping list\e[0m"]
-  user_selection = menu.enum_select("\e[95mWhat would you like me to do?\e[0m", menu_options)
-    if user_selection == "Search for a recipe by ingredient"
-      find_recipe_by_ingredient(user)
-    elsif user_selection == "Fetch my recipes"
-
-    elsif user_selection == "I don't know what to eat"
-
-    else user_selection == "Make a shopping list"
-      shopping_list(user)
-    end
-end
-
 
 def random_recipe(user)
-  puts "\e[95mWhy not try this recipe?\e[0m"
-  rand_recipe = Recipe.all.name.sample
+  puts "\n\e[95mWhy not try this recipe?\e[0m"
+  rand_recipe = Recipe.all.sample.title
   puts rand_recipe
   save_random_recipe(user)
-end
-
-def save_random_recipe(user)  # => helper method for random_recipe(user)
-  puts "\n\e[95mWould you like to save it for later? (y/n)\e[0m"
-  should_recipe_be_saved = gets.chomp
-    if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
-      puts "\n\e[91mGet it together, #{user.first_name}. That's not a valid input.\e[0m"
-      save_random_recipe(user)
-    elsif should_recipe_be_saved == "n"
-      false
-    else should_recipe_be_saved == "y"
+  save_prompt = TTY::Prompt.new
+  save_prompt.yes?("\e[95mWould you like to save it for later?\e[0m")
+    if save_prompt == "n"
+      puts "Okay, it won't be saved."
+    else save_prompt == "y"
       saved_recipe = Recipe.find_by(title: rand_recipe)
       new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
       puts "\n\e[95mGreat! #{rand_recipe} has been saved to your list.\e[0m"
     end
 end
+
+# def save_random_recipe(user)  # => helper method for random_recipe(user)
+#   puts "\n\e[95mWould you like to save it for later? (y/n)\e[0m"
+#   should_recipe_be_saved = gets.chomp
+#     if should_recipe_be_saved != "n" && should_recipe_be_saved != "y"
+#       puts "\n\e[91mC'mon, #{user.first_name}. That's not a valid input.\e[0m"
+#       save_random_recipe(user)
+#     elsif should_recipe_be_saved == "n"
+#       false
+#       puts "Okay, it won't be saved."
+#     else should_recipe_be_saved == "y"
+#       saved_recipe = Recipe.find_by(title: rand_recipe)
+#       new_user_recipe = UserRecipe.create(recipe: saved_recipe, user: user)
+#       puts "\n\e[95mGreat! #{rand_recipe} has been saved to your list.\e[0m"
+#     end
+# end
 
 
 def shopping_list(user) #returns all ingredients for entire cookbook
