@@ -47,7 +47,7 @@ def create_new_user_account # => takes user inputs and creates a new User instan
 end
 
 
-def existing_account_login  # => finds
+def existing_account_login  # => finds existing user
   puts "\n\e[95mPlease enter your username.\e[0m"
   user_username = gets.chomp
   user = User.find_by(username: user_username)
@@ -86,20 +86,16 @@ end
 def find_recipe_by_ingredient(user)
   puts "\n\e[95mWhat ingredient would you like to use?\e[0m"
   user_ingredient = gets.chomp
-  ingredient_given = Ingredient.find_by(title: user_ingredient) #find the ingredient inputed
-  if ingredient_given == nil #if ingredient not found in db
+  ingredient_given = Ingredient.find_by(title: user_ingredient) # => find the ingredient inputed
+  if ingredient_given == nil # => if ingredient not found in db
     puts "\n\e[91mRuh roh! No recipes with that ingredient could be found. Try making it plural?\e[0m"
     find_recipe_by_ingredient(user)
-  else #if ingredient found in db
-    relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id) #finds all relationships that contain that ingredient
-    recipe_ids = relationships.collect {|row| row.recipe_id} #collects all recipe_ids
-    recipes = recipe_ids.collect do |id| #collects all recipe objects
-      Recipe.find(id)
-    end
+  else # => if ingredient found in db
+    relationships = RecipeIngredient.where(ingredient_id: ingredient_given.id) # => finds all relationships that contain that ingredient
+    recipe_ids = relationships.collect {|row| row.recipe_id} # => collects all recipe_ids
+    recipes = recipe_ids.collect {|id| Recipe.find(id) } # => collects all recipe objects
     puts "\n\e[95mHere are some available recipes with that ingredient:\e[0m"
-    recipes.each do |recipe| #displays title of each recipe
-      puts "#{recipe.title}"
-    end
+    recipes_result = recipes.each {|recipe| puts "#{recipe.title}" } # => displays title of each recipe
   end
   save_recipe(user)
 end
@@ -144,20 +140,21 @@ def random_recipe(user)
 end
 
 
-def shopping_list_all_recipes(user) #returns all ingredients for entire cookbook
-  puts "\e[95mShopping List\e[0m"
-  relationships = UserRecipe.where(user_id: user.id) #returns array of all relationships
+def shopping_list_all_recipes(user) # => returns all ingredients for entire cookbook
+  relationships = UserRecipe.where(user_id: user.id) # => returns array of all relationships
   if relationships == []
     puts "Your shopping list is empty. Save recipes before building a shopping list."
     prompt_menu(user)
   else
-    recipe_ids = relationships.collect do |row| #returns array of all recipe ids
+    puts "\n\e[96mShopping List\e[0m"
+    puts "-------------------------"
+    recipe_ids = relationships.collect do |row| # => returns array of all recipe ids
       row.recipe_id
     end
-    all_recipes = recipe_ids.collect do |x| #returns array of all recipe objects
+    all_recipes = recipe_ids.collect do |x| # => returns array of all recipe objects
       Recipe.find(x)
     end
-    all_ingredients = all_recipes.collect do |recipe| #returns array of all ingredient objects
+    all_ingredients = all_recipes.collect do |recipe| # => returns array of all ingredient objects
       recipe.ingredients
     end.flatten.uniq
     shopping_list = all_ingredients.each do |ingredient|
@@ -167,21 +164,20 @@ def shopping_list_all_recipes(user) #returns all ingredients for entire cookbook
 end
 
 def shopping_list_one_recipe(user)
-  relationships = UserRecipe.where(user_id: user.id) #returns array of all relationships
+  relationships = UserRecipe.where(user_id: user.id) # => returns array of all relationships
   if relationships == []
     puts "Your shopping list is empty. Save recipes before building a shopping list."
     prompt_menu(user)
-    ###
   else
-    puts "Which saved recipe?"
-    recipe_ids = relationships.collect do |row| #returns array of all recipe ids
-      row.recipe_id
-    end
-    all_recipes = recipe_ids.collect do |x| #returns array of all recipe objects
-      Recipe.find(x)
-    end
-    recipe_titles = all_recipes.each do |recipe| #print out all saved recipe titles
-      puts recipe.title
-    end
+    recipe_ids = relationships.collect {|row| row.recipe_id } # => returns array of all recipe ids
+    all_recipes = recipe_ids.collect {|id| Recipe.find(id) } # => returns array of all recipe objects
+    recipe_titles = all_recipes.collect { |recipe| recipe.title} # => print out all saved recipe titles
+    recipe_list = TTY::Prompt.new
+    recipe_titles
+    puts "\n\e[96mShopping List\e[0m"
+    puts "-------------------------"
+    user_selection = recipe_list.select("\n\e[95mWhich saved recipe would you like to use?\e[0m", recipe_titles)
+    ingredients_list = Recipe.find_by(title: user_selection).ingredients.each {|ingredient| puts ingredient.title}
   end
+  ingredients_list
 end
