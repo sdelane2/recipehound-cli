@@ -6,9 +6,10 @@ require 'asciiart'
 ## ===== WELCOME METHODS ===== ##
 
 def welcome_image
-  ascii = AsciiArt.new("http://c1.staticflickr.com/5/4468/37882203826_01aeb6ea0c_b.jpg")
+  ascii = AsciiArt.new("https://s7d2.scene7.com/is/image/PetSmart/PB1201_STORY_CARO-Authority-HealthyOutside-DOG-20160818?$PB1201$")
   print ascii.to_ascii_art
 end
+
 
 def welcome_message # => greets user at the start of the program
   puts "\n\e[95mWelcome to \e[97m\e[1mRecipeHound\e[0m\e[95m, the CLI app that sniffs out the perfect recipe for you!\e[0m"
@@ -16,25 +17,30 @@ end
 
 
 def create_new_account_or_login_prompt  # => asks user to sign in or create a new account
-  puts "\n\e[95mWould you like to create a new account or sign in to an existing account?"
-  puts "Enter '1' to create a new account. Enter '2' to sign in to an existing account.\e[0m"
-  welcome_option
-end
-
-
-def welcome_option  # => validation for user input on create_new_account_or_login_prompt. Will output user object
-  user_welcome_input = gets.chomp.to_i
-  if user_welcome_input == 1
-    puts "\e[95mAwesome! Let's create a new account for you!\e[0m"
+  login = TTY::Prompt.new
+  login_options = ["\e[95mCreate a new account\e[0m", "\e[95mSign in with an existing account\e[0m"]
+  login_selection = login.select("\n\e[95mWould you like to create a new account or sign in to an existing account?\e[0m", login_options)
+  if login_selection == "\e[95mCreate a new account\e[0m"
     user = create_new_user_account
-  elsif user_welcome_input == 2
+  else login_selection == "\e[95mSign in with an existing account\e[0m"
     user = existing_account_login
-  else
-    puts "\n\e[91mRuh roh! That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account.\e[0m"
-    welcome_option
   end
-  user
 end
+
+#
+# def welcome_option  # => validation for user input on create_new_account_or_login_prompt. Will output user object
+#   user_welcome_input = gets.chomp.to_i
+#   if user_welcome_input == 1
+#     puts "\e[95mAwesome! Let's create a new account for you!\e[0m"
+#     user = create_new_user_account
+#   elsif user_welcome_input == 2
+#     user = existing_account_login
+#   else
+#     puts "\n\e[91mRuh roh! That is not a valid option. Please enter '1' to create a new account or enter '2' to sign in to an existing account.\e[0m"
+#     welcome_option
+#   end
+#   user
+# end
 
 
 def create_new_user_account # => takes user inputs and creates a new User instance
