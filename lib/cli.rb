@@ -108,6 +108,7 @@ def find_recipe_by_ingredient(user)
       puts "#{recipe.title}"
     end
   end
+  save_recipe(user)
 end
 
 
@@ -130,7 +131,6 @@ end
 
 def fetch_user_recipes(user)
   if user.recipes == []
-  binding.pry
     puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first."
   else
     user.recipes.each {|recipe| puts recipe.title}
