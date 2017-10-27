@@ -96,7 +96,7 @@ end
 def prompt_menu(user)
   border
   menu = TTY::Prompt.new
-  menu_options = ["\e[93mSearch for a recipe by ingredient\e[0m", "\e[93mFetch my recipes\e[0m", "\e[93mI don't know what to eat\e[0m", "\e[93mMake a shopping list one saved recipes\e[0m", "\e[93mMake a shopping list for all saved recipes\e[0m"]
+  menu_options = ["\e[93mSearch for a recipe by ingredient\e[0m", "\e[93mFetch my recipes\e[0m", "\e[93mI don't know what to eat\e[0m", "\e[93mMake a shopping list for one saved recipe\e[0m", "\e[93mMake a shopping list for all saved recipes\e[0m"]
   user_selection = menu.select("\n\e[95mWhat would you like to do?\e[0m", menu_options)
   user_selection
   if user_selection == "\e[93mSearch for a recipe by ingredient\e[0m"
@@ -105,7 +105,7 @@ def prompt_menu(user)
     fetch_user_recipes(user)
   elsif user_selection == "\e[93mI don't know what to eat\e[0m"
     random_recipe(user)
-  elsif user_selection == "\e[93mMake a shopping list one saved recipes\e[0m"
+  elsif user_selection == "\e[93mMake a shopping list for one saved recipe\e[0m"
     shopping_list_one_recipe(user)
   else user_selection == "\e[93mMake a shopping list for all saved recipes\e[0m"
     shopping_list_all_recipes(user)
@@ -208,7 +208,8 @@ def shopping_list_one_recipe(user)
     user_selection = recipe_list.select("\n\e[95mWhich saved recipe would you like to use?\e[0m", recipe_titles)
     puts "\n\e[96mShopping List\e[0m"
     puts "-------------------------"
-    ingredients_list = Recipe.find_by(title: user_selection).ingredients.each {|ingredient| puts ingredient.title}
+    ingredients_list = Recipe.find_by(title: user_selection).ingredients.uniq.each {|ingredient| puts ingredient.title}
   end
   ingredients_list
+
 end
