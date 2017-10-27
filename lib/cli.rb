@@ -145,12 +145,20 @@ end
 
 
 def fetch_user_recipes(user)
-  if user.recipes == []
+
+  relationships = UserRecipe.where(user_id: user.id) # => returns array of all relationships
+  if relationships == []
     puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first.\e[0m"
+    prompt_menu(user)
   else
     puts "\n\e[96mMy Recipes\e[0m"
     puts "-------------------------"
-    user.recipes.each {|recipe| puts recipe.title}
+    recipe_ids = relationships.collect do |row| # => returns array of all recipe ids
+      row.recipe_id
+    end
+    all_recipes = recipe_ids.collect do |x| # => returns array of all recipe objects
+      puts Recipe.find(x).title
+    end
   end
 end
 
@@ -211,5 +219,4 @@ def shopping_list_one_recipe(user)
     ingredients_list = Recipe.find_by(title: user_selection).ingredients.uniq.each {|ingredient| puts ingredient.title}
   end
   ingredients_list
-
 end
