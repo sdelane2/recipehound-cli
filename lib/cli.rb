@@ -145,7 +145,6 @@ end
 
 
 def fetch_user_recipes(user)
-
   relationships = UserRecipe.where(user_id: user.id) # => returns array of all relationships
   if relationships == []
     puts "\e[91mStop trying to make fetch happen. It's not going to happen. Try saving some recipes first.\e[0m"
