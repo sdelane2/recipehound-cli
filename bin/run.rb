@@ -27,6 +27,8 @@ puts "\e[96m
 welcome_image
 welcome_message
 user = create_new_account_or_login_prompt
+  #output is a new or existing user. 
+  #saves this user instance as user to be called in later methods
 100.times do
   prompt_menu(user)
 end
