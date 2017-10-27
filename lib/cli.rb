@@ -46,9 +46,39 @@ def create_new_account_or_login_prompt  # => asks user to sign in or create a ne
   if login_selection == "\e[93mCreate a new account\e[0m"
     user = create_new_user_account
   else login_selection == "\e[93mSign in with an existing account\e[0m"
-    user = existing_account_login
+    puts "\n\e[95mPlease enter your username.\e[0m"
+    user_username = gets.chomp
+    password = TTY::Prompt.new
+    user_password = password.mask("\e[95mPlease enter your password.\e[0m")
+    user = User.find_by(username: user_username, password: user_password)
+    if user == nil
+      puts "\n\e[91mRuh roh! No user found with that username and password. Please try again.\e[0m"
+      create_new_account_or_login_prompt
+    else
+      user = User.find_by(username: user_username, password: user_password)
+      puts "\n\e[93mHello, #{user.first_name}. Welcome back!\e[0m"
+      user
+    end
   end
 end
+#
+# def existing_account_login  # => finds existing user
+#   puts "\n\e[95mPlease enter your username.\e[0m"
+#   user_username = gets.chomp
+#   password = TTY::Prompt.new
+#   user_password = password.mask("\e[95mPlease enter your password.\e[0m")
+#   user = User.find_by(username: user_username, password: user_password)
+#   if user == nil
+#     puts "\n\e[91mRuh roh! No user found with that username and password. Please try again.\e[0m"
+#     create_new_account_or_login_prompt
+#     binding.pry
+#   else
+#     user = User.find_by(username: user_username, password: user_password)
+#     puts "\n\e[93mHello, #{user.first_name}. Welcome back!\e[0m"
+#   end
+# user
+# end
+
 
 
 def create_new_user_account # => takes user inputs and creates a new User instance
@@ -78,8 +108,10 @@ def existing_account_login  # => finds existing user
   user = User.find_by(username: user_username, password: user_password)
   if user == nil
     puts "\n\e[91mRuh roh! No user found with that username and password. Please try again.\e[0m"
-    existing_account_login
+    create_new_account_or_login_prompt
+    binding.pry
   else
+    user = User.find_by(username: user_username, password: user_password)
     puts "\n\e[93mHello, #{user.first_name}. Welcome back!\e[0m"
   end
 user
