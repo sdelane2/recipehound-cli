@@ -1,5 +1,7 @@
 # RecipeHound #
 
+RecipeHound is a project created by students of Flatiron School.
+
 RecipeHound is a CLI app that sniffs out the perfect recipe for you! The app allows users to:
   - create and login to an account with a username and password.
   - The user is greeted with a menu of options after logging in, where they can:
