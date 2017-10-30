@@ -116,6 +116,7 @@ def existing_account_login  # => finds existing user
   end
 user
 end
+clear
 
 
 ## ===== MENU ===== ##
