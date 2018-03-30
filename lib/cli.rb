@@ -149,7 +149,7 @@ end
 def find_recipe_by_ingredient(user)
   puts "\n\e[95mWhat ingredient would you like to use?\e[0m"
   user_ingredient = gets.chomp
-  ingredient_given = Ingredient.find_by(title: user_ingredient) # => find the ingredient inputed
+  ingredient_given = Ingredient.find_by(title: user_ingredient) # => find the ingredient based on input
   if ingredient_given == nil # => if ingredient not found in db
     puts "\n\e[91mRuh roh! No recipes with that ingredient could be found. Try making it plural?\e[0m"
     find_recipe_by_ingredient(user)
